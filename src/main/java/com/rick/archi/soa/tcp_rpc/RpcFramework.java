@@ -6,7 +6,7 @@ import java.net.Socket;
 
 public class RpcFramework {
 
-	public static void export(final Object service, int port) throws Exception {  
+	public static void publish(final Object service, int port) throws Exception {  
         if (service == null)  
             throw new IllegalArgumentException("service instance == null");  
         if (port <= 0 || port > 65535)  
@@ -24,7 +24,7 @@ public class RpcFramework {
     }  
 	
 	@SuppressWarnings("unchecked")  
-    public static <T> T refer(final Class<T> interfaceClass, final String host, final int port) throws Exception {  
+    public static <T> T subscribe(final Class<T> interfaceClass, final String host, final int port) throws Exception {  
           
         if (interfaceClass == null)  
             throw new IllegalArgumentException("Interface class == null");  
