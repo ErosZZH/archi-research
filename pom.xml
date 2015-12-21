@@ -4,9 +4,9 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.rick</groupId>
-	<artifactId>archi</artifactId>
+	<artifactId>archi-research</artifactId>
 	<version>1.0.0</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>archi-research</name>
 	<url>http://www.rick.com</url>
@@ -29,6 +29,13 @@
 			<groupId>org.apache.zookeeper</groupId>
 			<artifactId>zookeeper</artifactId>
 			<version>3.4.7</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.websocket</groupId>
+			<artifactId>javax.websocket-api</artifactId>
+			<version>1.0</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -63,20 +70,6 @@
 					<webappDirectory>${project.build.directory}/${project.artifactId}</webappDirectory>
 					<warName>${project.artifactId}</warName>
 				</configuration>
-			</plugin>
-
-			<!-- install插件 -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-install-plugin</artifactId>
-				<version>2.4</version>
-			</plugin>
-
-			<!-- clean插件 -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-clean-plugin</artifactId>
-				<version>2.5</version>
 			</plugin>
 
 			<!-- no test -->
