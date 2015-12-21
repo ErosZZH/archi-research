@@ -33,8 +33,8 @@ public class HelloServer {
 	public static class HelloServerHandler extends SimpleChannelHandler {
 
 		@Override
-		public void channelConnected(ChannelHandlerContext ctx,
-				ChannelStateEvent e) throws Exception {
+		public void channelOpen(ChannelHandlerContext ctx, ChannelStateEvent e)
+				throws Exception {
 			System.out.println("Hi, I'm server.");
 		}
 		
