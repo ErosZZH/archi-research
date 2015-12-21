@@ -6,4 +6,14 @@
 	
 	<display-name>Web Socket Web Application</display-name>
 	
+	<servlet>
+		<servlet-name>wsServlet</servlet-name>
+		<servlet-class>com.rick.archi.ws.DemoServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>wsServlet</servlet-name>
+		<url-pattern>/wsServlet</url-pattern>
+	</servlet-mapping>
+	
 </web-app>

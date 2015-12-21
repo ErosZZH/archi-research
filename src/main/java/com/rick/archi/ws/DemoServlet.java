@@ -1,40 +1,71 @@
 package com.rick.archi.ws;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
 import java.util.ArrayList;
+import java.util.List;
 
-import javax.websocket.OnClose;
-import javax.websocket.OnMessage;
-import javax.websocket.OnOpen;
-import javax.websocket.Session;
-import javax.websocket.server.ServerEndpoint;
+import javax.servlet.http.HttpServletRequest;
 
-@ServerEndpoint(value = "/wsServlet")
-public class DemoServlet {
-    //notice:not thread-safe
-    private static ArrayList<Session> sessionList = new ArrayList<Session>();
-    
-    @OnOpen
-    public void onOpen(Session session){
-        try{
-            sessionList.add(session);
-            //asynchronous communication
-            session.getBasicRemote().sendText("Hello!");
-        }catch(IOException e){}
-    }
-    
-    @OnClose
-    public void onClose(Session session){
-        sessionList.remove(session);
-    }
-    
-    @OnMessage
-    public void onMessage(String msg){
-        try{
-            for(Session session : sessionList){
-                //asynchronous communication
-                session.getBasicRemote().sendText(msg);
+import org.apache.catalina.websocket.MessageInbound;
+import org.apache.catalina.websocket.StreamInbound;
+import org.apache.catalina.websocket.WebSocketServlet;
+import org.apache.catalina.websocket.WsOutbound;
+
+public class DemoServlet extends WebSocketServlet {
+
+	private static final long serialVersionUID = 1L;
+	private static List<MyMessageInbound> mmiList = new ArrayList<MyMessageInbound>();
+
+	@Override
+	protected StreamInbound createWebSocketInbound(String arg0, HttpServletRequest arg1) {
+		return new MyMessageInbound();
+	}
+	
+	private class MyMessageInbound extends MessageInbound {
+		
+		WsOutbound myoutbound;
+
+		@Override
+		protected void onClose(int status) {
+			System.out.println("Close Client.");
+            mmiList.remove(this);
+		}
+
+		@Override
+		protected void onOpen(WsOutbound outbound) {
+			 try {
+	                System.out.println("Open Client.");
+	                this.myoutbound = outbound;
+	                mmiList.add(this);
+	                outbound.writeTextMessage(CharBuffer.wrap("Hello!"));
+	            } catch (IOException e) {
+	                e.printStackTrace();
+	            }
+		}
+		
+		@Override
+		protected void onTextMessage(CharBuffer arg0) throws IOException {
+			System.out.println("Accept Message : " + arg0);
+            for (MyMessageInbound mmib : mmiList) {
+                CharBuffer buffer = CharBuffer.wrap(arg0);
+                mmib.myoutbound.writeTextMessage(buffer);
+                mmib.myoutbound.flush();
             }
-        }catch(IOException e){}
-    }
+			
+		}
+
+		@Override
+		public int getReadTimeout() {
+			return 0;
+		}
+
+		@Override
+		protected void onBinaryMessage(ByteBuffer arg0) throws IOException {
+			
+		}
+
+	}
+
 }
