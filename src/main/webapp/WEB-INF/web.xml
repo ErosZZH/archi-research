@@ -3,9 +3,20 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
 	http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
-	
+
 	<display-name>Web Socket Web Application</display-name>
-	
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+            classpath:config/spring/dubbo-provider.xml
+    	</param-value>
+	</context-param>
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
 	<servlet>
 		<servlet-name>wsServlet</servlet-name>
 		<servlet-class>com.rick.archi.ws.DemoServlet</servlet-class>
@@ -15,5 +26,5 @@
 		<servlet-name>wsServlet</servlet-name>
 		<url-pattern>/wsServlet</url-pattern>
 	</servlet-mapping>
-	
+
 </web-app>
