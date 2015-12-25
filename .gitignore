@@ -18,3 +18,4 @@
 /data/
 /bin/
 deploy.sh*
+*.out
