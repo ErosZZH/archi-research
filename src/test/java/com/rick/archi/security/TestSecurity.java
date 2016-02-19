@@ -8,7 +8,7 @@ public class TestSecurity {
 
 	@Test
 	public void testFileType() throws IOException {
-		System.out.println(SecurityUtils.getType("/home/eros/1.java").name());
+		System.out.println(SecurityUtils.getType("/home/eros/1.png").name());
 	}
 
 }
