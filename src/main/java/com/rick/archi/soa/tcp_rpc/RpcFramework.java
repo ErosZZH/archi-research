@@ -2,26 +2,21 @@ package com.rick.archi.soa.tcp_rpc;
 
 import java.lang.reflect.Proxy;
 import java.net.ServerSocket;
-import java.net.Socket;
+import java.util.Map;
+import java.util.Set;
 
 public class RpcFramework {
 
-	public static void publish(final Object service, int port) throws Exception {  
-        if (service == null)  
-            throw new IllegalArgumentException("service instance == null");  
-        if (port <= 0 || port > 65535)  
-            throw new IllegalArgumentException("Invalid port " + port);  
-        System.out.println("Export service " + service.getClass().getName() + " on port " + port);  
-        ServerSocket server = new ServerSocket(port);  
-        for(;;) {  
-            try {  
-                final Socket socket = server.accept();  
-                ThreadPoolHelper.getExecutorInstance().execute(new WorkThread(service, socket));
-            } catch (Exception e) {  
-                e.printStackTrace();  
-            }  
-        }  
-    }  
+	public static void publish(final Map<Integer, Object> map) throws Exception {
+
+        Set<Map.Entry<Integer, Object>> set = map.entrySet();
+        for(Map.Entry<Integer, Object> entry: set) {
+            int port = entry.getKey();
+            Object service = entry.getValue();
+            ServerSocket server = new ServerSocket(port);
+            ThreadPoolHelper.getExecutorInstance().execute(new WorkThread(service, server));
+        }
+    }
 	
 	@SuppressWarnings("unchecked")  
     public static <T> T subscribe(final Class<T> interfaceClass, final String host, final int port) throws Exception {  
