@@ -28,6 +28,7 @@ public class HelloServer {
 			}
 		});
 		server.bind(new InetSocketAddress(3457));
+        server.bind(new InetSocketAddress(3456));
 	}
 	
 	public static class HelloServerHandler extends SimpleChannelHandler {

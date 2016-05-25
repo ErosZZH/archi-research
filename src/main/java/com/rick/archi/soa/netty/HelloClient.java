@@ -28,6 +28,7 @@ public class HelloClient {
 			}
 		});
 		client.connect(new InetSocketAddress("127.0.0.1", 3457));
+        client.connect(new InetSocketAddress("127.0.0.1", 3456));
 	}
 	
 	public static class HelloClientHandler extends SimpleChannelHandler {

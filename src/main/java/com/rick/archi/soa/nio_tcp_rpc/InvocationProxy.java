@@ -82,6 +82,8 @@ public class InvocationProxy implements InvocationHandler {
                         result = new String( receiveBuffer.array(),0,count);
                     }
                     finish = true;
+                    client.close();
+                    selectionKey.cancel();
                 }
                 selector.selectedKeys().clear();
             }

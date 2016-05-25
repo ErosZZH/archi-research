@@ -81,6 +81,8 @@ public class WorkThread implements Runnable {
                             client.write(sendBuffer);
                             client.register(selector, SelectionKey.OP_READ);
                         }
+                        client.close();
+                        sk.cancel();
 
                     }
                 }
